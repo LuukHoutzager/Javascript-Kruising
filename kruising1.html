@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body background="kruising.png">
+    <form>
+      <h1>verkeer3.html</h1>
+      <input type="button" value="aanzetten" onclick="aanzetten()">
+      <input type="button" value="knipperen" onclick="knipperen()">
+      <input type="button" value="uitzetten" onclick="uitzetten()">
+      <img id="stoplicht" src="stoplichtuit.png"  width="30px" height="50px">
+      <img id="stoplicht2" src="stoplichtuit2.png"  width="30px" height="50px">
+      <input type="button" value="start" onclick="starten()">
+      <input type="button" value="stop" onclick="stop()">
+      <input type="button" value="opnieuw" onclick="opnieuw()">
+      <img id="auto" src="autogroen.png" width="40px" height="80px">
+      <img id="auto2" src="autopaars.png" width="40px" height="80px">
+      </form>
+
+      <script>
+        var werken;           // animatie heet 'werken'
+        var buitenwerking;    // andere animatie heet 'buitenwerking'
+        var slir;
+        var snelheid = 5;
+        var snelheid2 = 5;
+        var stoplicht = document.getElementById('stoplicht');
+        stoplicht.style.position = 'absolute';
+        stoplicht.style.left = '775px';
+        stoplicht.style.bottom = '225px';
+        var stoplicht2 = document.getElementById('stoplicht2');
+        stoplicht2.style.position = 'absolute';
+        stoplicht2.style.left = '560px';
+        stoplicht2.style.top = '225px';
+
+        function aanzetten() {
+          clearTimeout(buitenwerking);
+          maakRood();
+          werken = setTimeout(maakGroen, 4000);        //na 4 sec groen maken
+          werken = setTimeout(maakGeel, 8000);         // na 8 sec geel maken
+          werken = setTimeout(aanzetten, 10000);       // en na 10 sec opnieuw aanzetten
+
+        }
+
+        function knipperen(){
+          clearTimeout(werken);
+          maakGeel();
+          buitenwerking = setTimeout(zetUit, 500);      // na 500 msec uitzettten
+          buitenwerking = setTimeout(knipperen, 1000);  // na 1000msec weer knipperen
+
+        }
+
+        function uitzetten() {
+          // deze functie zet de animaties van het stoplicht uitzetten
+          // dat is anders dan de functie zetUit() doet
+          zetUit();
+          clearTimeout(buitenwerking);
+          clearTimeout(werken);
+
+        }
+
+        function maakRood() {
+          stoplicht.src = "stoplichtrood.png";
+          stoplicht2.src = "stoplichtrood2.png";
+          slir = true;
+        }
+
+        function maakGroen() {
+          stoplicht.src = "stoplichtgroen.png";
+          stoplicht2.src = "stoplichtgroen2.png";
+          slir = false;
+        }
+
+        function maakGeel() {
+          stoplicht.src = "stoplichtgeel.png";
+          stoplicht2.src = "stoplichtgeel2.png";
+          slir = false;
+        }
+
+        function zetUit() {
+          // deze functie laat het platje met alle lampjes uit zien
+          // niet verwarren met de functie uitzetten()
+          stoplicht.src = "stoplichtuit.png";
+          stoplicht2.src = "stoplichtuit2.png";
+          slir = false;
+        }
+
+        var rijden;         // animatie heet rijden
+        var auto = document.getElementById('auto'); // object gauto gekoppeld aan het plaatje
+        auto.style.position = 'absolute';
+        auto.style.left = '715px';
+        auto.style.top = '600px';
+        var auto2 = document.getElementById('auto2'); // object gauto gekoppeld aan het plaatje
+        auto2.style.position = 'absolute';
+        auto2.style.left = '615px';
+        auto2.style.top = '0px';
+
+        function starten() {
+
+          if (parseInt(auto.style.top)  < -80) {  // als de auto boven
+          auto.style.top = '600px'; }
+
+
+        if (slir && auto.style.top == "540px") {
+          snelheid = 0;
+        }else {
+          snelheid = 5;
+        }
+
+        if (parseInt(auto2.style.top) > 850) {  // als de auto boven
+        auto2.style.top = '-80px'; }
+
+
+      if (slir && auto2.style.top == "200px") {
+        snelheid2 = 0;
+      }else {
+        snelheid2 = 5;
+      }
+        auto.style.top = parseInt(auto.style.top) - snelheid + 'px';
+        auto2.style.top = parseInt(auto2.style.top) + snelheid2 + 'px';
+        
+        rijden = setTimeout(starten, 10);   // om de 10msec starten aanroepen
+        }
+
+        function stop() {
+          clearTimeout(rijden);
+        }
+
+        function opnieuw() {
+          clearTimeout(rijden);
+          auto.style.top = '600px';
+          auto2.style.top = '100px';
+        }
+
+      </script>
+    </body>
+</html>
